@@ -25,6 +25,6 @@ jobs:
     - name: 'Run dotnet'
       shell: pwsh
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/AzureFunctionsGithubActions'
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/api'
         dotnet build --configuration Release --output ./output
         popd
