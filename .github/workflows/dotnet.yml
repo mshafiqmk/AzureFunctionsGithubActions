@@ -24,7 +24,7 @@ jobs:
       shell: pwsh
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/api'
-        dotnet build api.sln --configuration Release --output ./output
+        dotnet build AzureFunctions.sln --configuration Release --output ./output
         popd
     - name: 'Run Tests'
       shell: pwsh
