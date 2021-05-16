@@ -1,0 +1,25 @@
+name: Complex work flow example
+
+on: push
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - run: date
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - run: date
+
+  mac:
+    runs-on: macos-latest
+    steps:
+      - run: date
+
+  dependent:
+    needs: [ubuntu, windows, mac]
+    runs-on: windows-latest
+    steps:
+      - run: date
