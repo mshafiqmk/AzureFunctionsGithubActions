@@ -1,26 +1,31 @@
-name: .NET
+name: deploy_backend
 
 on:
   push:
-    branches: [ main ]
-    paths: ./backend
-  pull_request:
-    branches: [ main ]
+        branches: [ main ]
+        paths:
+        - 'backend/**'
+          
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'backend'    # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '3.1'              # set this to the dotnet version to use
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
+  build-and-deploy:
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 'Run dotnet'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/api'
+        dotnet build --configuration Release --output ./output
+        popd
